@@ -1,0 +1,10 @@
+./.git/
+./node_modules/
+./.idea/
+./test/
+
+.gitignore
+.npmignore
+pom.xml
+TODO.md
+jsl.conf

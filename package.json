@@ -1,0 +1,38 @@
+{
+  "name": "mocks",
+  "description": "Set of mock modules for easy testing (fs, http)",
+  "homepage": "",
+  "keywords": [
+    "mock",
+    "stub",
+    "dummy",
+    "test double",
+    "fake",
+    "nodejs",
+    "js",
+    "testing",
+    "test",
+    "fs",
+    "fs mock",
+    "http",
+    "http mock"
+  ],
+  "author": "Vojta Jína <vojta.jina@gmail.com>",
+  "contributors": [],
+  "dependencies": {},
+  "devDependencies": {
+    "coffee-script": "1.1.2",
+    "jasmine-node": "1.0.11",
+    "jake": "0.2.15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vojtajina/node-mocks.git"
+  },
+  "main": "./lib/index",
+  "bin": {},
+  "engines": {
+    "node": ">= 0.6.5"
+  },
+  "version": "0.0.0"
+}
