@@ -110,7 +110,7 @@ Now, the unit test fails, because our fake file system calls back in different o
 
 
 ## API
-Currently supported API is only very small part of real [Node's API]. Basically I only implemented methods I need for testing [SlimJim].
+Currently supported API is only very small part of real [Node's API]. Basically I only implemented methods I need for testing [Testacular].
 
 I will keep adding more and of course if anyone wants to help - pull requests are more than welcomed.
 
@@ -136,4 +136,4 @@ I will keep adding more and of course if anyone wants to help - pull requests ar
 [Node.js]: http://nodejs.org/
 [NPM]: http://npmjs.org/
 [Node's API]: http://nodejs.org/docs/latest/api/index.html
-[SlimJim]: https://github.com/vojtajina/slim-jim
+[Testacular]: https://github.com/vojtajina/testacular
