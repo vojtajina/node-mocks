@@ -34,7 +34,7 @@ task('version', function () {
     // commit + push to github
     'git commit package.json CHANGELOG.md -m "' + message + '"',
     'git push origin master',
-    'git tag -a v' + pkg.version + ' -m "Version to v' + pkg.version + '"',
+    'git tag -a v' + pkg.version + ' -m "Version ' + pkg.version + '"',
     'git push --tags'
   ], function () {
     console.log(message);
