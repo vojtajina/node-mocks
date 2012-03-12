@@ -1,4 +1,4 @@
-# Node Mocks
+# Node Mocks [![Build Status](https://secure.travis-ci.org/vojtajina/node-mocks.png?branch=master)](http://travis-ci.org/vojtajina/node-mocks)
 
 Set of mocks and utilities for easier unit testing with [Node.js].
 
