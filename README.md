@@ -129,7 +129,7 @@ I will keep adding more and of course if anyone wants to help - pull requests ar
 - http.ServerRequest
 
 
-### loadFile(path [, mocks])
+### loadFile(path [, mocks] [, globals])
 ### predictableNextTick(fn)
 ### predictableNextTick.pattern
 

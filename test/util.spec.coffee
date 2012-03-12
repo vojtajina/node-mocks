@@ -97,3 +97,34 @@ describe 'mock-util', ->
 
       waitsFor (-> callback.callCount), 'later added fn to be called', 100
       waitsFor (-> anotherCallback.callCount), 'another later added fn to be called', 100
+
+
+  #============================================================================
+  # util.loadFile()
+  #============================================================================
+  describe 'loadFile', ->
+    loadFile = util.loadFile
+    fixturePath = __dirname + '/fixtures/some.js'
+
+    it 'should load file with access to private state', ->
+      module = loadFile fixturePath
+      expect(module.privateNumber).toBe 100
+
+
+    it 'should inject mocks', ->
+      fsMock = {}
+      module = loadFile fixturePath, {fs: fsMock}
+      expect(module.privateFs).toBe fsMock
+
+
+    it 'should load local modules', ->
+      module = loadFile fixturePath
+      expect(module.privateLocalModule).toBeDefined()
+      expect(module.privateLocalModule.id).toBe 'LOCAL_MODULE'
+
+
+    it 'should inject globals', ->
+      fakeConsole = {}
+      module = loadFile fixturePath, {}, {console: fakeConsole}
+      expect(module.privateConsole).toBe fakeConsole
+
