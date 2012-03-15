@@ -1,3 +1,7 @@
+### v0.0.3
+* Correct stack trace when syntax error during loadFile
+* Add missing globals to util.loadFile
+
 ### v0.0.2
 * Update loadFile - allow passing globals
 
