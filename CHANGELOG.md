@@ -1,3 +1,6 @@
+### v0.0.4
+Set error code on exceptions
+
 ### v0.0.3
 * Correct stack trace when syntax error during loadFile
 * Add missing globals to util.loadFile
