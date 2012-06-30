@@ -19,10 +19,11 @@ describe 'mock-util', ->
 
 
     it 'should behave predictable based on given pattern', ->
-      nextTick.pattern = [1, 0]
       stressIt = ->
         log = ''
         runs ->
+          nextTick.pattern = [1, 0]
+
           nextTick -> log += 1
           nextTick -> log += 2
           nextTick -> log += 3
@@ -63,7 +64,7 @@ describe 'mock-util', ->
 
 
     # regression
-    it 'should survive exception inside callback', ->
+    it 'should survive exception inside callback and fire callbacks registered afterwards', ->
       exceptionHandled = false
       beforeExceptionSpy = jasmine.createSpy 'before exception'
       afterExceptionSpy = jasmine.createSpy 'after exception'
@@ -97,6 +98,47 @@ describe 'mock-util', ->
 
       waitsFor (-> callback.callCount), 'later added fn to be called', 100
       waitsFor (-> anotherCallback.callCount), 'another later added fn to be called', 100
+
+
+    it 'should follow pattern even if callbacks are nested', ->
+      nextTick.pattern = [0, 2, 3, 1]
+      log = []
+
+      nextTick ->
+        log.push '0'
+        nextTick ->
+          log.push '01'
+        nextTick ->
+          log.push '02'
+
+      nextTick ->
+        log.push '1'
+
+      waitsFor (-> log.length is 4), 'all callbacks processed', 100
+      runs ->
+        expect(log).toEqual ['0', '01', '02', '1']
+
+
+    # regression
+    it 'should recover after error', ->
+      spy = jasmine.createSpy 'nextTick callback'
+
+      exceptionHandled = false
+      uncaughtExceptionHandler = (err) ->
+        process.removeListener 'uncaughtException', uncaughtExceptionHandler
+        exceptionHandled = true
+
+      process.on 'uncaughtException', uncaughtExceptionHandler
+
+      nextTick ->
+        throw new Error 'SOME ERR'
+
+      waitsFor (-> exceptionHandled), 'exception handled', 100
+
+      # register another tick callback, after the handled exception
+      runs ->
+        nextTick spy
+      waitsFor (-> spy.callCount), 'spy being called', 100
 
 
   #============================================================================
