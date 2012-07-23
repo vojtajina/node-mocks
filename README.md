@@ -114,7 +114,7 @@ Currently supported API is only very small part of real [Node's API]. Basically 
 
 I will keep adding more and of course if anyone wants to help - pull requests are more than welcomed.
 
-### fs
+### [fs](http://nodejs.org/api/fs.html)
 
 - stat(path, callback)
 - readdir(path, callback)
@@ -123,10 +123,12 @@ I will keep adding more and of course if anyone wants to help - pull requests ar
 - watchFile(path [, options], callback)
 - _touchFile(path, mtime, content) *
 
-### http
+### [http](http://nodejs.org/api/http.html)
 
 - http.ServerResponse
 - http.ServerRequest
+
+### [glob](https://github.com/isaacs/node-glob)
 
 
 ### loadFile(path [, mocks] [, globals])
