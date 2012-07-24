@@ -1,3 +1,8 @@
+### v0.0.5
+* Trivial implementation of chokidar
+* Trivial mock for node-glob
+* Improve predictableNextTick to follow pattern even for nested callbacks
+
 ### v0.0.4
 Set error code on exceptions
 
