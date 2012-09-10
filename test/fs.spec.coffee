@@ -188,6 +188,34 @@ describe 'fs', ->
         toThrow 'Illegal operation on directory'
 
 
+  # ===========================================================================
+  # fs.writeFile
+  # ===========================================================================
+  describe 'writeFile', ->
+
+    it 'should write file content as Buffer', ->
+      callback = (err) ->
+        expect(err).toBeFalsy()
+        finished++
+
+      fs.writeFile '/home/vojta/some.js', 'something', callback
+      waitForFinished()
+
+      runs ->
+        expect(fs.readFileSync('/home/vojta/some.js').toString()).toBe 'something'
+
+
+    it 'should return ENOENT when writing to non-existing directory', ->
+      callback = (err) ->
+        expect(err).toBeTruthy()
+        expect(err instanceof Error).toBe true
+        expect(err.code).toBe 'ENOENT'
+        finished++
+
+      fs.writeFile '/home/vojta/non/existing/some.js', 'something', callback
+      waitForFinished()
+
+
     # ===========================================================================
     # fs.watchFile
     # ===========================================================================
