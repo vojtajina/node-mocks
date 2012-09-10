@@ -216,42 +216,42 @@ describe 'fs', ->
       waitForFinished()
 
 
-    # ===========================================================================
-    # fs.watchFile
-    # ===========================================================================
-    describe 'watchFile', ->
+  # ===========================================================================
+  # fs.watchFile
+  # ===========================================================================
+  describe 'watchFile', ->
 
-      it 'should call when when file accessed', ->
-        callback = jasmine.createSpy('watcher').andCallFake (current, previous) ->
-          expect(current.isFile()).toBe true
-          expect(previous.isFile()).toBe true
-          expect(current.mtime).toEqual previous.mtime
+    it 'should call when when file accessed', ->
+      callback = jasmine.createSpy('watcher').andCallFake (current, previous) ->
+        expect(current.isFile()).toBe true
+        expect(previous.isFile()).toBe true
+        expect(current.mtime).toEqual previous.mtime
 
-        fs.watchFile '/home/vojta/some.js', callback
-        expect(callback).not.toHaveBeenCalled()
+      fs.watchFile '/home/vojta/some.js', callback
+      expect(callback).not.toHaveBeenCalled()
 
-        fs._touchFile '/home/vojta/some.js'
-        expect(callback).toHaveBeenCalled()
-
-
-      it 'should call when file modified', ->
-        original = new Date '2012-01-01'
-        modified = new Date '2012-01-02'
-
-        callback = jasmine.createSpy('watcher').andCallFake (current, previous) ->
-          expect(previous.mtime).toEqual original
-          expect(current.mtime).toEqual modified
-
-        fs.watchFile '/home/vojta/some.js', callback
-        expect(callback).not.toHaveBeenCalled()
-
-        fs._touchFile '/home/vojta/some.js', '2012-01-02', 'new content'
-        expect(callback).toHaveBeenCalled()
+      fs._touchFile '/home/vojta/some.js'
+      expect(callback).toHaveBeenCalled()
 
 
-      it 'should allow optional second argument (options)', ->
-        callback = jasmine.createSpy 'watcher'
-        fs.watchFile '/home/vojta/some.js', {some: 'options'}, callback
-        fs._touchFile '/home/vojta/some.js'
+    it 'should call when file modified', ->
+      original = new Date '2012-01-01'
+      modified = new Date '2012-01-02'
 
-        expect(callback).toHaveBeenCalled()
+      callback = jasmine.createSpy('watcher').andCallFake (current, previous) ->
+        expect(previous.mtime).toEqual original
+        expect(current.mtime).toEqual modified
+
+      fs.watchFile '/home/vojta/some.js', callback
+      expect(callback).not.toHaveBeenCalled()
+
+      fs._touchFile '/home/vojta/some.js', '2012-01-02', 'new content'
+      expect(callback).toHaveBeenCalled()
+
+
+    it 'should allow optional second argument (options)', ->
+      callback = jasmine.createSpy 'watcher'
+      fs.watchFile '/home/vojta/some.js', {some: 'options'}, callback
+      fs._touchFile '/home/vojta/some.js'
+
+      expect(callback).toHaveBeenCalled()
