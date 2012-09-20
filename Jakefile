@@ -26,10 +26,11 @@ task('version', function () {
   jake.exec([
     // update changelog
     'echo "### v' + pkg.version + '" > ' + TEMP_FILE,
-    'git log --pretty=%s ' + previousVersionTag + '..HEAD >> ' + TEMP_FILE,
+    'git log --pretty="* %s" ' + previousVersionTag + '..HEAD >> ' + TEMP_FILE,
     'echo "" >> ' + TEMP_FILE,
-    'mvim CHANGELOG.md -c ":0r ' + TEMP_FILE + '"',
-    'rm ' + TEMP_FILE,
+    'cat CHANGELOG.md >> ' + TEMP_FILE,
+    'mv ' + TEMP_FILE + ' CHANGELOG.md',
+    'sublime -w CHANGELOG.md',
 
     // commit + push to github
     'git commit package.json CHANGELOG.md -m "' + message + '"',
@@ -50,7 +51,7 @@ task('publish', ['version'], function() {
   ], function() {
     console.log('Published to npm');
     complete();
-  })
+  });
 });
 
 
