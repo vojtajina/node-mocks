@@ -1,3 +1,8 @@
+### v0.0.6
+* Add fs.mkdir()
+* Add fs.statSync()
+* Add fs.writeFile()
+
 ### v0.0.5
 * Trivial implementation of chokidar
 * Trivial mock for node-glob
