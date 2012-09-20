@@ -82,6 +82,28 @@ describe 'fs', ->
 
 
   # ===========================================================================
+  # fs.statSync()
+  # ===========================================================================
+  describe 'statSync', ->
+
+    it 'should stat directory', ->
+      stat = fs.statSync '/bin'
+      expect(stat.isDirectory()).toBe true
+
+
+    it 'should stat file', ->
+      stat = fs.statSync '/bin/grep'
+      expect(stat.isDirectory()).toBe false
+
+      stat = fs.statSync '/home/vojta/some.js'
+      expect(stat.isDirectory()).toBe false
+
+
+    it 'should throw an error when path does not exist', ->
+      expect(-> fs.statSync '/notexist').toThrow 'ENOENT, no such file or directory "/notexist"'
+
+
+  # ===========================================================================
   # fs.readdir()
   # ===========================================================================
   describe 'readdir', ->
