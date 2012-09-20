@@ -137,6 +137,52 @@ describe 'fs', ->
 
 
   # ===========================================================================
+  # fs.mkdir()
+  # ===========================================================================
+  describe 'mkdir', ->
+
+    it 'should be async', ->
+      callback = jasmine.createSpy 'done'
+      fs.mkdir '/bin', callback
+      expect(callback).not.toHaveBeenCalled()
+
+
+    it 'should create directory', ->
+      callback = (err) ->
+        expect(err).toBeFalsy()
+        stat = fs.statSync '/home/new'
+        expect(stat).toBeDefined()
+        expect(stat.isDirectory()).toBe true
+        finished++
+
+      fs.mkdir '/home/new', callback
+      waitForFinished()
+
+
+    it 'should create a root directory', ->
+      callback = (err) ->
+        expect(err).toBeFalsy()
+        stat = fs.statSync '/new-root'
+        expect(stat).toBeDefined()
+        expect(stat.isDirectory()).toBe true
+        finished++
+
+      fs.mkdir '/new-root', callback
+      waitForFinished()
+
+
+    it 'should return error if parent does not exist', ->
+      callback = (err) ->
+        expect(err).toBeTruthy()
+        expect(err.errno).toBe 34
+        expect(err.code).toBe 'ENOENT'
+        finished++
+
+      fs.mkdir '/new/non/existing', callback
+      waitForFinished()
+
+
+  # ===========================================================================
   # fs.readFile
   # ===========================================================================
   describe 'readFile', ->
