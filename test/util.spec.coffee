@@ -170,3 +170,13 @@ describe 'mock-util', ->
       module = loadFile fixturePath, {}, {console: fakeConsole}
       expect(module.privateConsole).toBe fakeConsole
 
+
+    it 'should inject mocks into nested modules', ->
+      fsMock = {}
+
+      # /fixtures/some.js requires /fixtures/other.js
+      # /fixtures/other.js requires fs
+      module = loadFile fixturePath, {fs: fsMock}, {}, true
+
+      expect(module.privateLocalModule.fs).toBe fsMock
+
