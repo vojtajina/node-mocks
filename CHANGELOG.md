@@ -1,3 +1,6 @@
+### v0.0.7
+* Allow injecting mocks into nested deps
+
 ### v0.0.6
 * Add fs.mkdir()
 * Add fs.statSync()
