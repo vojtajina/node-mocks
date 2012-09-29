@@ -135,6 +135,27 @@ describe 'fs', ->
       fs.readdir '/home/not', callback
       waitForFinished()
 
+  # ===========================================================================
+  # fs.readdirSync
+  # ===========================================================================
+  describe 'readdirSync', ->
+
+    it 'should read dir content and sync return all content files', ->
+      content = fs.readdirSync '/home/vojta/sub'
+      expect(content instanceof Array).toBe true
+      expect(content).toEqual ['first.js','second.js','third.log']
+
+
+    it 'should throw when dir does not exist', ->
+      expect(-> fs.readdirSync '/non-existing').
+        toThrow 'ENOENT, no such file or directory "/non-existing"'
+
+
+    it 'should throw when reading a file', ->
+      expect(-> fs.readdirSync '/home/vojta/some.js').
+        toThrow 'ENOTDIR, not a directory "/home/vojta/some.js"'
+ 
+
 
   # ===========================================================================
   # fs.mkdir()
