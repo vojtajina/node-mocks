@@ -18,7 +18,9 @@
     "http mock"
   ],
   "author": "Vojta Jína <vojta.jina@gmail.com>",
-  "contributors": [],
+  "contributors": [
+    "Damien Duportal <damien.duportal@gmail.com>"
+  ],
   "dependencies": {},
   "devDependencies": {
     "coffee-script": "1.1.2",
