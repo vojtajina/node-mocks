@@ -135,6 +135,7 @@ describe 'fs', ->
       fs.readdir '/home/not', callback
       waitForFinished()
 
+
   # ===========================================================================
   # fs.readdirSync
   # ===========================================================================
@@ -154,7 +155,6 @@ describe 'fs', ->
     it 'should throw when reading a file', ->
       expect(-> fs.readdirSync '/home/vojta/some.js').
         toThrow 'ENOTDIR, not a directory "/home/vojta/some.js"'
- 
 
 
   # ===========================================================================
