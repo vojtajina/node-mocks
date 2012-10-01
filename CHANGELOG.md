@@ -1,3 +1,7 @@
+### v0.0.8
+* Add fs.mkdirSync()
+* Add fs.readdirSync()
+
 ### v0.0.7
 * Allow injecting mocks into nested deps
 
