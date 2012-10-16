@@ -19,7 +19,8 @@
   ],
   "author": "Vojta Jína <vojta.jina@gmail.com>",
   "contributors": [
-    "Damien Duportal <damien.duportal@gmail.com>"
+    "Damien Duportal <damien.duportal@gmail.com>",
+    "Taichi <ryushi@gmail.com>"
   ],
   "dependencies": {},
   "devDependencies": {
