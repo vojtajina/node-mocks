@@ -1,3 +1,6 @@
+### v0.0.9
+* Normalize path separator
+
 ### v0.0.8
 * Add fs.mkdirSync()
 * Add fs.readdirSync()
