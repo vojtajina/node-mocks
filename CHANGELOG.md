@@ -1,3 +1,6 @@
+### v0.0.10
+* Make http.ServerResponse and http.ServerRequest event emitters
+
 ### v0.0.9
 * Normalize path separator
 
