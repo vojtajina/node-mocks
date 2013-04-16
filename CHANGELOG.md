@@ -1,3 +1,6 @@
+### v0.0.11
+* Added exists/existsSync to fs mocks
+
 ### v0.0.10
 * Make http.ServerResponse and http.ServerRequest event emitters
 
