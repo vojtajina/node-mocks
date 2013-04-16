@@ -354,3 +354,36 @@ describe 'fs', ->
       fs._touchFile '/home/vojta/some.js'
 
       expect(callback).toHaveBeenCalled()
+
+
+  # ===========================================================================
+  # fs.existsSync
+  # ===========================================================================
+  describe 'existsSync', ->
+
+    it 'should return true for existing file and false for non-existing', ->
+      expect(fs.existsSync '/home/vojta/some.js').toBe(true)
+      expect(fs.existsSync '/home/vojta/non-existing.js').toBe(false)
+
+
+  # ===========================================================================
+  # fs.exists
+  # ===========================================================================
+  describe 'exists', ->
+
+    it 'should callback with true for existing file', ->
+      callback = (exists) ->
+        expect(exists).toBe(true)
+        finished++
+
+      fs.exists '/home/vojta/some.js', callback
+      waitForFinished()
+
+
+    it 'should callback with false for none-existing file', ->
+      callback = (exists) ->
+        expect(exists).toBe(false)
+        finished++
+
+      fs.exists '/home/vojta/none-existing.js', callback
+      waitForFinished()
