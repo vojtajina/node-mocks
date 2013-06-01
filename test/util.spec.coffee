@@ -180,3 +180,81 @@ describe 'mock-util', ->
 
       expect(module.privateLocalModule.fs).toBe fsMock
 
+
+  #============================================================================
+  # util.loadFile() CoffeeScript
+  #============================================================================
+  describe 'loadFile', ->
+    loadFile = util.loadFile
+    fixturePath = __dirname + '/fixtures/some.coffee'
+
+    it 'should load file with access to private state', ->
+      module = loadFile fixturePath
+      expect(module.privateNumber).toBe 100
+
+
+    it 'should inject mocks', ->
+      fsMock = {}
+      module = loadFile fixturePath, {fs: fsMock}
+      expect(module.privateFs).toBe fsMock
+
+
+    it 'should load local modules', ->
+      module = loadFile fixturePath
+      expect(module.privateLocalModule).toBeDefined()
+      expect(module.privateLocalModule.id).toBe 'LOCAL_MODULE'
+
+
+    it 'should inject globals', ->
+      fakeConsole = {}
+      module = loadFile fixturePath, {}, {console: fakeConsole}
+      expect(module.privateConsole).toBe fakeConsole
+
+
+    it 'should inject mocks into nested modules', ->
+      fsMock = {}
+
+      # /fixtures/some.coffee requires /fixtures/other.coffee
+      # /fixtures/other.coffee requires fs
+      module = loadFile fixturePath, {fs: fsMock}, {}, true
+
+      expect(module.privateLocalModule.fs).toBe fsMock
+
+  #============================================================================
+  # util.loadFile() literate style CoffeeScript
+  #============================================================================
+  describe 'loadFile', ->
+    loadFile = util.loadFile
+    fixturePath = __dirname + '/fixtures/some.litcoffee'
+
+    it 'should load file with access to private state', ->
+      module = loadFile fixturePath
+      expect(module.privateNumber).toBe 100
+
+
+    it 'should inject mocks', ->
+      fsMock = {}
+      module = loadFile fixturePath, {fs: fsMock}
+      expect(module.privateFs).toBe fsMock
+
+
+    it 'should load local modules', ->
+      module = loadFile fixturePath
+      expect(module.privateLocalModule).toBeDefined()
+      expect(module.privateLocalModule.id).toBe 'LOCAL_MODULE'
+
+
+    it 'should inject globals', ->
+      fakeConsole = {}
+      module = loadFile fixturePath, {}, {console: fakeConsole}
+      expect(module.privateConsole).toBe fakeConsole
+
+
+    it 'should inject mocks into nested modules', ->
+      fsMock = {}
+
+      # /fixtures/some.litcoffee requires /fixtures/other.litcoffee
+      # /fixtures/other.litcoffee requires fs
+      module = loadFile fixturePath, {fs: fsMock}, {}, true
+
+      expect(module.privateLocalModule.fs).toBe fsMock

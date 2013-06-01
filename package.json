@@ -22,7 +22,9 @@
     "Damien Duportal <damien.duportal@gmail.com>",
     "Taichi <ryushi@gmail.com>"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "coffee-script": ">=1.5.0"
+  },
   "devDependencies": {
     "coffee-script": "1.1.2",
     "jasmine-node": "1.0.11",
