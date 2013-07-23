@@ -1,3 +1,6 @@
+### v0.0.12
+* http.ServerResponse emit "end" event
+
 ### v0.0.11
 * Added exists/existsSync to fs mocks
 
