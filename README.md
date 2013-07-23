@@ -1,3 +1,59 @@
+## Why this fork?
+To enable using the same context object for loadFile ing any object
+
+example: 
+consider a file structure
+````
+|___orm
+|     |
+|     |__user.js
+|     |__permission.js
+|___app.js
+
+````
+
+````
+user.js
+
+
+require("./permission.js);
+...
+
+````
+
+````
+app.js
+
+
+require("./orm/permission.js");
+...
+
+````
+Now suppose we want to mock out `permission.js`. Now, for `user.spec.js`, we need to do 
+````javascript
+var loadFile = require("mocks").loadFile;
+
+var user = loadFile(__dirname+"/user.js", 
+{"./permission.js": //observe this path
+        require("./mock_permission.js"});
+...
+````
+
+But in `app.spec.js`, we'll have to do,
+````javascript
+var loadFile = require("mocks").loadFile;
+
+var app = loadFile(__dirname+"/app.js", 
+{"./orm/permission.js": //observe how the path has changed
+require("./mock_permission.js"});
+...
+````
+
+This prevents us from using the same context dictionary to load many objects.
+In our project, we have "configuration objects" which we want to use for loading any object. Hence this fork.
+
+## The documentation from main site follows.
+
 # Node Mocks [![Build Status](https://secure.travis-ci.org/vojtajina/node-mocks.png?branch=master)](http://travis-ci.org/vojtajina/node-mocks)
 
 Set of mocks and utilities for easier unit testing with [Node.js].
