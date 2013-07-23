@@ -28,9 +28,11 @@ describe 'http', ->
       expect(response._status).toBe 201
 
 
-    it 'should ignore end() when already sent', ->
+    it 'should throw when trygin to end() already finished reponse', ->
       response.end 'First Body'
-      response.end 'Another Body'
+
+      expect(-> response.end 'Another Body')
+        .toThrow "Can't write to already finished response."
       expect(response._body).toBe 'First Body'
 
 
@@ -41,6 +43,11 @@ describe 'http', ->
       response.removeHeader 'Cache-Control'
 
       expect(response._headers).toEqual {'Content-Type': 'text/plain'}
+
+
+    it 'should getHeader()', ->
+      response.setHeader 'Content-Type', 'json'
+      expect(response.getHeader 'Content-Type').toBe 'json'
 
 
     it 'should throw when trying to send headers twice', ->
@@ -57,6 +64,21 @@ describe 'http', ->
         .toThrow "Can't set headers after they are sent."
 
 
+    it 'should write body', ->
+      response.write 'a'
+      response.end 'b'
+
+      expect(response._body).toBe 'ab'
+
+
+    it 'should throw when trying to write after end', ->
+      response.write 'one'
+      response.end 'two'
+
+      expect(-> response.write 'more')
+        .toThrow "Can't write to already finished response."
+
+
     it 'isFinished() should assert whether headers and body has been sent', ->
       expect(response._isFinished()).toBe false
 
@@ -68,3 +90,13 @@ describe 'http', ->
 
       response.end 'Some body'
       expect(response._isFinished()).toBe true
+
+
+  #==============================================================================
+  # http.ServerRequest
+  #==============================================================================
+  describe 'ServerRequest', ->
+
+    it 'should return headers', ->
+      request = new httpMock.ServerRequest '/some', {'Content-Type': 'json'}
+      expect(request.getHeader 'Content-Type').toBe 'json'
