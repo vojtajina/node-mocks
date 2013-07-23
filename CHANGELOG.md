@@ -1,3 +1,6 @@
+### v0.0.13
+* Add http.ServerRequest.headers
+
 ### v0.0.12
 * http.ServerResponse emit "end" event
 
