@@ -1,8 +1,8 @@
 ## Why this fork?
-To enable using the same context object for loadFile ing any object
+To enable using absolute path in mock dictionary, even when loadFile 'ed object uses relative paths in require.
 
 example: 
-consider a file structure
+consider a directory structure
 ````
 |___orm
 |     |
@@ -12,45 +12,54 @@ consider a file structure
 
 ````
 
+In `user.js`:
 ````
-user.js
-
-
 require("./permission.js);
 ...
 
 ````
 
+In `app.js`
 ````
-app.js
-
-
 require("./orm/permission.js");
 ...
 
 ````
-Now suppose we want to mock out `permission.js`. Now, for `user.spec.js`, we need to do 
+
+Now suppose we want to mock out `permission.js`. Before this fork, in `user.spec.js`, 
+we would have needed to do 
 ````javascript
 var loadFile = require("mocks").loadFile;
 
 var user = loadFile(__dirname+"/user.js", 
-{"./permission.js": //observe this path
-        require("./mock_permission.js"});
+                    {"./permission.js": //observe this path
+                                        require("./mock_permission.js"});
 ...
 ````
 
-But in `app.spec.js`, we'll have to do,
+But in `app.spec.js`, we'd have to do,
 ````javascript
 var loadFile = require("mocks").loadFile;
 
 var app = loadFile(__dirname+"/app.js", 
-{"./orm/permission.js": //observe how the path has changed
-require("./mock_permission.js"});
+                   {"./orm/permission.js": //observe how the path has changed
+                                           require("./mock_permission.js"});
 ...
 ````
 
-This prevents us from using the same context dictionary to load many objects.
-In our project, we have "configuration objects" which we want to use for loading any object. Hence this fork.
+This prevents us from using the same mock dictionary to load many objects.
+In our project, we have "configuration objects" which specifies wiring similar to google guice
+which we want to use for loading any object. 
+
+With this fork, one can do:
+````javascript
+mocks = {
+  '/absolute/path/to/project/orm/permission.js' : require('./mock_permission')
+}
+
+var user = loadFile(__dirname+"/user.js", mock);
+var app = loadFile(__dirname+"/app.js", mock);
+````
 
 ## The documentation from main site follows.
 
