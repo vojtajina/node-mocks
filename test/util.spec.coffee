@@ -180,3 +180,29 @@ describe 'mock-util', ->
 
       expect(module.privateLocalModule.fs).toBe fsMock
 
+    describe 'behavior with relative and absolute paths in mock', ->
+      join = require("path").join
+      base = join __dirname, "fixtures"
+      nested = join base, "nested"
+
+      it 'should inject relative module paths normally without mocking', ->
+        expect(require join(nested, "nested_requirer")).toBe "unmocked!"
+        expect(require join(base, "requirer")).toBe "unmocked!"
+
+      it 'should inject mocks specified with relative paths.', ->
+        mocks = {"./requiree":"mocked!"}
+        nested_requirer = loadFile join(nested, "nested_requirer"), mocks
+        expect(nested_requirer.module.exports).toBe "mocked!"
+
+        # only exact match works with relative paths.
+        requirer = loadFile join(base, "requirer"), mocks
+        expect(requirer.module.exports).toBe "unmocked!"
+
+      it 'should inject mocks specified with absolute paths.', ->
+        mocks = {}
+        mocks[join nested, "requiree.js"] = "mocked!"
+        nested_requirer = loadFile join(nested, "nested_requirer"), mocks
+        expect(nested_requirer.module.exports).toBe "mocked!"
+
+        requirer = loadFile join(base, "requirer"), mocks
+        expect(requirer.module.exports).toBe "mocked!"
