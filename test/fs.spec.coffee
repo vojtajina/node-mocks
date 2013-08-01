@@ -387,3 +387,17 @@ describe 'fs', ->
 
       fs.exists '/home/vojta/none-existing.js', callback
       waitForFinished()
+
+
+  describe 'relative paths', ->
+
+    it 'should read file with a relative path', ->
+      callback = (err, data) ->
+        expect(err).toBeFalsy()
+        expect(data instanceof Buffer).toBe true
+        expect(data.toString()).toBe 'some'
+        finished++
+
+      fs._setCWD '/home/vojta'
+      fs.readFile './some.js', callback
+      waitForFinished()
