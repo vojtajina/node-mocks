@@ -1,3 +1,7 @@
+### v0.0.15
+* feat(fs): support relative paths
+* fix(util.loadFile): do not override the exceptions
+
 ### v0.0.14
 * http.ServerResponse: publish headerSent, getHeader, write
 * http.ServerRequest: add getHeader
