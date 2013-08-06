@@ -180,7 +180,15 @@ describe 'mock-util', ->
 
       expect(module.privateLocalModule.fs).toBe fsMock
 
-    describe 'behavior with relative and absolute paths in mock', ->
+    it 'should load files specified with index.js', ->
+
+      # /fixtures/some.js requires /fixtures/other.js
+      # /fixtures/other.js requires fs
+      loaded = loadFile __dirname + "/fixtures/use_dir_module", undefined, undefined, true
+
+      expect(loaded.test_import).toBe "The actual export"
+
+    xdescribe 'behavior with relative and absolute paths in mock', ->
       join = require("path").join
       base = join __dirname, "fixtures"
       nested = join base, "nested"
