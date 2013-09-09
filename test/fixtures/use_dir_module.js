@@ -1,0 +1,1 @@
+var test_import = require("./dir_module");

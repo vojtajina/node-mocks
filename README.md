@@ -1,3 +1,68 @@
+## Why this fork?
+To enable using absolute path in mock dictionary, even when loadFile 'ed object uses relative paths in require.
+
+example: 
+consider a directory structure
+````
+|___orm
+|     |
+|     |__user.js
+|     |__permission.js
+|___app.js
+
+````
+
+In `user.js`:
+````
+require("./permission.js);
+...
+
+````
+
+In `app.js`
+````
+require("./orm/permission.js");
+...
+
+````
+
+Now suppose we want to mock out `permission.js`. Before this fork, in `user.spec.js`, 
+we would have needed to do 
+````javascript
+var loadFile = require("mocks").loadFile;
+
+var user = loadFile(__dirname+"/user.js", 
+                    {"./permission.js": //observe this path
+                                        require("./mock_permission.js"});
+...
+````
+
+But in `app.spec.js`, we'd have to do,
+````javascript
+var loadFile = require("mocks").loadFile;
+
+var app = loadFile(__dirname+"/app.js", 
+                   {"./orm/permission.js": //observe how the path has changed
+                                           require("./mock_permission.js"});
+...
+````
+
+This prevents us from using the same mock dictionary to load many objects.
+In our project, we have "configuration objects" which specifies wiring similar to google guice
+which we want to use for loading any object. 
+
+With this fork, one can do:
+````javascript
+mocks = {
+  '/absolute/path/to/project/orm/permission.js' : require('./mock_permission')
+}
+
+var user = loadFile(__dirname+"/user.js", mock);
+var app = loadFile(__dirname+"/app.js", mock);
+````
+
+## The documentation from main site follows.
+
 # Node Mocks [![Build Status](https://secure.travis-ci.org/vojtajina/node-mocks.png?branch=master)](http://travis-ci.org/vojtajina/node-mocks)
 
 Set of mocks and utilities for easier unit testing with [Node.js].
