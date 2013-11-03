@@ -59,6 +59,17 @@ describe 'fs', ->
       waitForFinished 2
 
 
+    it 'should stat file when called without fs as this arg', ->
+      callback = (err, stat) ->
+        expect(err).toBeFalsy()
+        expect(stat.isDirectory()).toBe false
+        finished++
+
+      stat = fs.stat
+      stat '/home/vojta/some.js', callback
+      waitForFinished 1
+
+
     it 'should return error when path does not exist', ->
       callback = (err, stat) ->
         expect(err).toBeTruthy()
