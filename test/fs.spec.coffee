@@ -228,6 +228,25 @@ describe 'fs', ->
       fs.readFile '/home/vojta/some.js', callback
       waitForFinished()
 
+    it 'should read file content as string when encoding is specified', ->
+      callback = (err, data) ->
+        expect(err).toBeFalsy()
+        expect(typeof data).toBe 'string'
+        expect(data).toBe 'some'
+        finished++
+
+      fs.readFile '/home/vojta/some.js', 'utf8', callback
+      waitForFinished()
+
+    it 'should read file content as string when encoding is specified as an option', ->
+      callback = (err, data) ->
+        expect(err).toBeFalsy()
+        expect(typeof data).toBe 'string'
+        expect(data).toBe 'some'
+        finished++
+
+      fs.readFile '/home/vojta/some.js', {encoding: 'utf8'}, callback
+      waitForFinished()
 
     it 'should be async', ->
       callback = jasmine.createSpy 'calback'
