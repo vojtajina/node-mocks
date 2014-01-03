@@ -401,3 +401,60 @@ describe 'fs', ->
       fs._setCWD '/home/vojta'
       fs.readFile './some.js', callback
       waitForFinished()
+
+  
+  # ===========================================================================
+  # fs.createWriteStream
+  # ===========================================================================
+  describe 'createWriteStream', ->
+    stream = require 'stream'
+    
+    it 'should return a writable stream', ->
+      writeStream = fs.createWriteStream '/home/vojta/some.js'
+      expect(writeStream instanceof stream.Writable).toBe true
+    
+
+    it 'should create the file if it does not exist', ->
+      newFilePath = '/a-new-file'
+      expect(fs.existsSync newFilePath).toBe false
+      writeStream = fs.createWriteStream newFilePath
+      expect(fs.existsSync newFilePath).toBe true
+
+
+    it 'should write to the file', ->
+      file = '/home/vojta/sub/a_file'
+      
+      callback = createSpy('done').andCallFake () ->
+        expect(fs.readFileSync(file).toString()).toEqual 'foo bar baz'
+      
+
+      writeStream = fs.createWriteStream file
+      expect(fs.readFileSync(file).toString()).toEqual ''
+
+      writeStream.on 'finish', () ->
+        callback()
+      writeStream.write('foo ');
+      writeStream.write('bar ');
+      writeStream.end('baz');
+
+
+    it 'should throw if the path is incorrect', ->
+      file = '/this/path/does/not/exist'
+      expect () ->
+        fs.createWriteStream file
+      .toThrow 'No such file ' + file
+
+
+    it 'should throw an error if the path is a directory', ->
+      expect () ->
+        fs.createWriteStream '/home'
+      .toThrow 'Illegal operation on directory'
+
+
+    it 'should fire the close event', ->
+      callback = createSpy('done').andCallFake () ->
+        expect(callback).toHaveBeenCalled()
+      writeStream = fs.createWriteStream '/home/vojta/some.js'
+      writeStream.on 'close', callback
+      writeStream.end 'foo'
+
